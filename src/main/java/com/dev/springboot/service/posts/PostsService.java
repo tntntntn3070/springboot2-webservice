@@ -38,7 +38,7 @@ public class PostsService {
          * 즉, Entity 객체의 값만 변경하면 별도로 Update 쿼리를 날릴 필요가 없음
          */
         Posts posts = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+                .orElseThrow(() -> new IllegalArgumentException("Post does not exist. id=" + id));
 
         posts.update(requestDto.getTitle(), requestDto.getContent());
 
@@ -47,7 +47,7 @@ public class PostsService {
 
     public PostsResponseDto findById(Long id){
         Posts entity = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" +id));
+                .orElseThrow(() -> new IllegalArgumentException("Post does not exist. id=" +id));
 
         return new PostsResponseDto(entity);
     }
