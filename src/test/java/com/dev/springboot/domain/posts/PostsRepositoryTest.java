@@ -12,6 +12,11 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/*
+ * postsRepository.save
+ *  - id 값이 있으면 update, 없으면 insert 쿼리를 실행
+ */
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PostsRepositoryTest {
