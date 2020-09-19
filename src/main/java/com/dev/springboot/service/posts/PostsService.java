@@ -2,6 +2,7 @@ package com.dev.springboot.service.posts;
 
 import com.dev.springboot.domain.posts.Posts;
 import com.dev.springboot.domain.posts.PostsRepository;
+import com.dev.springboot.web.dto.PostsListResponseDto;
 import com.dev.springboot.web.dto.PostsResponseDto;
 import com.dev.springboot.web.dto.PostsSaveRequestDto;
 import com.dev.springboot.web.dto.PostsUpdateRequestDto;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /*
  * RequiredArgsConstructor
@@ -51,4 +54,24 @@ public class PostsService {
 
         return new PostsResponseDto(entity);
     }
+
+    /*
+     * readOnly = true 는 트랜잭션은 유지하되 죄회 기능만 남겨두어 조회 속도가 개선
+     */
+//    @Transactional(readOnly = true)
+    @Transactional
+    public List<PostsListResponseDto> findAllDesc(){
+        return postRepository.findAllDesc().stream()
+                .map(PostsListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void delete (Long id) {
+        Posts posts = postRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("해당 게시글이 없습니다. id= " + id));
+
+        postRepository.delete(posts);
+    }
+
 }
